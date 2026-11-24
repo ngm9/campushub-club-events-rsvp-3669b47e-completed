@@ -30,10 +30,24 @@ export default function App() {
         setError(body.error || 'RSVP failed.');
         return;
       }
+
+
       const updatedEvent = await res.json();
-      const existing = events.find((e) => e.id === updatedEvent.id);
-      existing.attendees = updatedEvent.attendees;
-      setEvents(events);
+      // const existing = events.find((e) => e.id === updatedEvent.id);
+      // existing.attendees = updatedEvent.attendees;
+      // setEvents(events);
+
+      const newEvents = [...events];
+
+      for(let i = 0; i < newEvents.length; i++) {
+        if(newEvents[i].id === updatedEvent.id) {
+          newEvents[i] = updatedEvent;
+          break;
+        }
+      }
+
+      setEvents(newEvents);
+
     } catch (err) {
       setError('RSVP failed.');
     }
